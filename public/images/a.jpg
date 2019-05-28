@@ -1,0 +1,99 @@
+ FileName: "c:/wamp64/bin/php/php5.6.35/php.exe"; Parameters: "testPort.php 3306 wampmariadb64";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated; Glyph: 24
+Type: item; Caption: "Test MariaDB port used: 3307"; Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe"; Parameters: "testPort.php 3307 wampmariadb64";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated; Glyph: 24
+Type: item; Caption: "Use a port other than 3307"; Action: multi; Actions: UseAlternateMariaPort; Glyph: 24
+Type:separator; Caption: "mariaDB Console prompt: default"
+Type: item; Caption: "Modify default Mariadb console prompt"; Glyph: 24; Action: multi; Actions: mariadbUseConsolePrompt
+Type: separator; Caption: "Default DBMS: MySQL"
+;Type: item; Caption: "Invert default DBMS MariaDB <-> MySQL"; Action: multi; Actions: SwitchMariaToMysql; Glyph: 24
+Type: item; Caption: "Invert default DBMS MySQL <-> MariaDB"; Action: multi; Actions: SwitchMysqlToMaria; Glyph: 24
+Type: separator; Caption: "Miscellaneous"
+Type: submenu; Caption: "Command windows"; Submenu: CommandWindows; Glyph: 24
+Type: submenu; Caption: "Empty logs"; Submenu: CleanLogFiles; Glyph: 24
+Type: item; Caption: "Reinstall all services"; Action: multi; Actions: StopRemoveInstallStartAll; Glyph: 24
+;WAMPCHANGESERVICESNAMESMENU
+;WAMPTOOLSEND
+
+[CleanLogFiles]
+Type: item; Caption: "Empty PHP error log"; Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe"; parameters: "msg.php refreshLogs c:/wamp64/logs/php_error.log";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated; Glyph: 32
+Type: item; Caption: "Empty Apache error log"; Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe"; parameters: "msg.php refreshLogs c:/wamp64/logs/apache_error.log";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated; Glyph: 32
+Type: item; Caption: "Empty Apache access log"; Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe"; parameters: "msg.php refreshLogs c:/wamp64/logs/access.log";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated; Glyph: 32
+Type: item; Caption: "Empty MySQL log"; Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe"; parameters: "msg.php refreshLogs c:/wamp64/logs/mysql.log";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated; Glyph: 32
+Type: item; Caption: "Empty MariaDB log"; Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe"; parameters: "msg.php refreshLogs c:/wamp64/logs/mariadb.log";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated; Glyph: 32
+Type: item; Caption: "Empty ALL Log files"; Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe"; parameters: "msg.php refreshLogs c:/wamp64/logs/php_error.log c:/wamp64/logs/apache_error.log c:/wamp64/logs/access.log c:/wamp64/logs/mysql.log c:/wamp64/logs/mariadb.log";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated; Glyph: 32
+
+[CommandWindows]
+Type: item; Caption: "Command windows Apache/bin"; Action: run; FileName: "%Cmd%"; WorkingDir: "c:/wamp64/bin/apache/apache2.4.33/bin"; Flags: ignoreerrors; Glyph: 0
+Type: item; Caption: "Command windows MySQL/bin"; Action: run; FileName: "%Cmd%"; WorkingDir: "c:/wamp64/bin/mysql/mysql5.7.21/bin"; Flags: ignoreerrors; Glyph: 0
+Type: item; Caption: "Command windows MariaDB/bin"; Action: run; FileName: "%Cmd%"; WorkingDir: "c:/wamp64/bin/mariadb/mariadb10.2.14/bin"; Flags: ignoreerrors; Glyph: 0
+Type: item; Caption: "Services Control Panel"; Action: controlpanelservices; Glyph: 0
+
+;WAMPMYSQLUSECONSOLEPROMPTSTART
+[mysqlUseConsolePrompt]
+Action: service; Service: wampapache64; ServiceAction: stop; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe";Parameters: "switchWampParam.php mysqlUseConsolePrompt on"; WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe";Parameters: "refresh.php"; WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: run; FileName: "net"; Parameters: "start wampapache64"; ShowCmd: hidden; Flags: waituntilterminated
+Action: resetservices
+Action: readconfig;
+;WAMPMYSQLUSECONSOLEPROMPTEND
+
+;WAMPMARIADBUSECONSOLEPROMPTSTART
+[mariadbUseConsolePrompt]
+Action: service; Service: wampapache64; ServiceAction: stop; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe";Parameters: "switchWampParam.php mariadbUseConsolePrompt on"; WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php.exe";Parameters: "refresh.php"; WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: run; FileName: "net"; Parameters: "start wampapache64"; ShowCmd: hidden; Flags: waituntilterminated
+Action: resetservices
+Action: readconfig;
+;WAMPMARIADBUSECONSOLEPROMPTEND
+
+;WAMPPHPCLIVERSIONSSTART
+[ChangePHPCLI]
+Type: item; Caption: "7.0.29"; Action: multi; Actions: change_CLI_7.0.29
+Type: item; Caption: "7.1.16"; Action: multi; Actions: change_CLI_7.1.16
+Type: item; Caption: "7.2.4"; Action: multi; Actions: change_CLI_7.2.4
+[change_CLI_7.0.29]
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "changeCLIVersion.php 7.0.29 ";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "refresh.php";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: resetservices
+Action: readconfig;
+[change_CLI_7.1.16]
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "changeCLIVersion.php 7.1.16 ";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "refresh.php";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: resetservices
+Action: readconfig;
+[change_CLI_7.2.4]
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "changeCLIVersion.php 7.2.4 ";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "refresh.php";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: resetservices
+Action: readconfig;
+
+;WAMPPHPCLIVERSIONEND
+
+[DnscacheServiceRestart]
+;WAMPDNSCACHESERVICESTART
+Action: service; Service: wampapache64; ServiceAction: stop; Flags: ignoreerrors waituntilterminated
+Action: run; Filename: "ipconfig"; Parameters: "/flushdns"; ShowCmd: hidden; Flags: waituntilterminated
+Action: run; Filename: "net"; Parameters: "stop dnscache"; ShowCmd: hidden; Flags: waituntilterminated
+Action: run; Filename: "net"; Parameters: "start dnscache"; ShowCmd: hidden; Flags: waituntilterminated
+Action: run; FileName: "net"; Parameters: "start wampapache64"; ShowCmd: hidden; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe"; Parameters: "refresh.php"; WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: resetservices
+Action: readconfig;
+;WAMPDNSCACHESERVICEEND
+
+[DeleteOldVersions]
+;WAMPDELETEOLDVERSIONSSTART
+Type: separator; Caption: "Delete unused versions"
+Type: separator; Caption: " PHP "
+Type: item; Caption: "Delete php 7.0.29"; Glyph: 32; Action: multi; Actions: del_php7.0.29
+Type: item; Caption: "Delete php 7.1.16"; Glyph: 32; Action: multi; Actions: del_php7.1.16
+Type: item; Caption: "Delete php 7.2.4"; Glyph: 32; Action: multi; Actions: del_php7.2.4
+[del_php7.0.29]
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "deleteVersion.php php 7.0.29";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "refresh.php";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: resetservices
+Action: readconfig;
+[del_php7.1.16]
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "deleteVersion.php php 7.1.16";WorkingDir: "c:/wamp64/scripts"; Flags: waituntilterminated
+Action: run; FileName: "c:/wamp64/bin/php/php5.6.35/php-win.exe";Parameters: "refresh.php";WorkingDir: "c:/wamp64/scripts";¦ÑyKsl      xâ¤š’M=éíG /UåÞO«nVic	¿®¯ÓÓ‚Sä¨,½ªQê…Ë‰4pýÅ´p‹ÍS’ÉŸ>·ËüßG>'§ñ¡¹Ê–¥»ðì—¸Î»#_vØºæ·ÆiÅûËñŒ¡	ãŽ*XÝ•’ŽÊàèkïù*ôÀ©è4sÃ†š/3±¬gðÄ¶B1„c¬F)$º’2¡«|Lî\sxà–H ”                                                                                                                                                                                                                                   ÿÙ
